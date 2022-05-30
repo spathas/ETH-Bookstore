@@ -1,6 +1,7 @@
 import { Web3Provider } from '@components/providers';
 import Header from '@components/ui/header/Header';
 import Footer from '@components/ui/footer/Footer';
+import CssBaseline from '@mui/material/CssBaseline';
 
 //STYLES
 import { ThemeProvider } from '@mui/material/styles';
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Web3Provider>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         {/* <Navbar /> */}
         <div
           style={{

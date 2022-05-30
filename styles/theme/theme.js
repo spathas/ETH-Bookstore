@@ -2,6 +2,17 @@ import { createTheme } from '@mui/material/styles';
 
 // Create a theme instance.
 const theme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          padding: 0,
+          margin: 0,
+          boxSizing: 'border-box',
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: `'Comfortaa', snad-serif`,
     fontSize: 14,
