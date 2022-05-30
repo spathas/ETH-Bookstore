@@ -6,8 +6,6 @@ import Footer from '@components/ui/footer/Footer';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../styles/theme/theme';
 
-import '@styles/globals.css';
-
 function MyApp({ Component, pageProps }) {
   return (
     <Web3Provider>
