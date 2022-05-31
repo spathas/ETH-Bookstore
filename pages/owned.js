@@ -30,52 +30,84 @@ const CardItem = ({ book }) => {
 
   const publishedDate = new Date(book.published).toDateString();
 
+  // Styles
+  const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const gridSize = matchesSM ? 12 : 5;
+
   return (
-    <Grid item sx={{ m: 2, borderRadius: '10px', maxWidth: '1450px' }}>
+    <Grid
+      item
+      sx={{
+        m: 2,
+        borderRadius: '10px',
+        maxWidth: '1450px',
+        width: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+    >
       <Card sx={{ display: 'flex' }}>
-        <CardContent>
-          <Grid container spacing={3}>
+        <CardContent sx={{ width: '100%' }}>
+          <Grid container spacing={matchesSM ? 1 : 3}>
             {/* TITLE */}
-            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
-              <Typography component='div' variant='h4'>
+            <Grid
+              item
+              xl={gridSize}
+              lg={gridSize}
+              md={gridSize}
+              sm={gridSize}
+              xs={gridSize}
+            >
+              <Typography component='div' variant={matchesSM ? 'h6' : 'h4'}>
                 {book.title}
               </Typography>
               {/* SUBTITLE */}
               {book?.subtitle && (
-                <Typography component='div' variant='h6'>
+                <Typography
+                  component='div'
+                  variant={matchesSM ? 'body1' : 'h6'}
+                >
                   {book.subtitle}
                 </Typography>
               )}
               {/* Description */}
               <Typography
-                variant='subtitle1'
+                variant={matchesSM ? 'subtitle2' : 'subtitle1'}
                 color='text.secondary'
                 component='div'
               >
                 {book.description}
               </Typography>
             </Grid>
-            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+            <Grid
+              item
+              xl={gridSize}
+              lg={gridSize}
+              md={gridSize}
+              sm={gridSize}
+              xs={gridSize}
+            >
               {/* AUTHORS */}
-              <Typography variant='h6' noWrap>
+              <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                 <strong>Authors: </strong>
                 {Array.isArray(book.author)
                   ? book.author.join(', ')
                   : book.author}
               </Typography>
               {/* PUBLISHED/ER */}
-              <Typography variant='h6' noWrap>
+              <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                 <strong>Published: </strong>
                 {publishedDate}
               </Typography>
-              <Typography variant='h6' noWrap>
+              <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                 <strong>Publisher: </strong>
                 {book.publisher}
               </Typography>
               {/* CATEGORIES */}
               <Tooltip
                 title={
-                  <Typography variant='subtitle1'>
+                  <Typography variant={matchesSM ? 'subtitle2' : 'subtitle1'}>
                     {Array.isArray(book.categories)
                       ? book.categories.join(', ')
                       : book.categories}
@@ -83,7 +115,7 @@ const CardItem = ({ book }) => {
                 }
                 arrow
               >
-                <Typography variant='h6' noWrap>
+                <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                   <strong>Categories: </strong>
                   {Array.isArray(book.categories)
                     ? book.categories.join(', ')
@@ -93,11 +125,13 @@ const CardItem = ({ book }) => {
               {/* WEBSITE */}
               <Tooltip
                 title={
-                  <Typography variant='subtitle1'>{book.website}</Typography>
+                  <Typography variant={matchesSM ? 'subtitle2' : 'subtitle1'}>
+                    {book.website}
+                  </Typography>
                 }
                 arrow
               >
-                <Typography variant='h6' noWrap>
+                <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                   <strong>Website: </strong>
 
                   <Link href={book.website}>
@@ -118,13 +152,13 @@ const CardItem = ({ book }) => {
                 }
                 arrow
               >
-                <Typography variant='h6' noWrap>
+                <Typography variant={matchesSM ? 'body1' : 'h6'} noWrap>
                   <strong>Proof: </strong>
                   {book.proof}
                 </Typography>
               </Tooltip>
               {/* PRICE */}
-              <Typography component='div' variant='h6'>
+              <Typography component='div' variant={matchesSM ? 'body1' : 'h6'}>
                 <strong>Price: </strong>
                 {book.price} ETH
               </Typography>
@@ -140,12 +174,14 @@ const CardItem = ({ book }) => {
             </Grid>
           </Grid>
         </CardContent>
-        <CardMedia
-          component='img'
-          sx={{ width: 220 }}
-          image={`/book-images/${slugify(book.title)}.webp`}
-          alt='Live from space album cover'
-        />
+        {!matchesSM && (
+          <CardMedia
+            component='img'
+            sx={{ width: 220 }}
+            image={`/book-images/${slugify(book.title)}.webp`}
+            alt='Live from space album cover'
+          />
+        )}
       </Card>
     </Grid>
   );
@@ -225,7 +261,11 @@ export default function Owned({ books }) {
 
   return (
     <>
-      <Typography variant='h2' color='text.primary' align='center'>
+      <Typography
+        variant={matchesSM ? 'h4' : 'h2'}
+        color='text.primary'
+        align='center'
+      >
         My Books
       </Typography>
       <Grid container justifyContent='center'>

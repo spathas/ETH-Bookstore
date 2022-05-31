@@ -3,11 +3,13 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 //STYLES
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
 function Footer() {
   //Styles
   const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <footer>
@@ -28,7 +30,7 @@ function Footer() {
           <Grid item xl={3} lg={3} md={3} sm={12} xs={12}></Grid>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
             <Typography
-              variant='h5'
+              variant={matchesSM ? 'h6' : 'h5'}
               component='div'
               align='center'
               color='primary.contrastText'
@@ -38,7 +40,7 @@ function Footer() {
           </Grid>
           <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
             <Typography
-              variant='body1'
+              variant={matchesSM ? 'caption' : 'body1'}
               component='div'
               align='center'
               color='primary.contrastText'
