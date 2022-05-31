@@ -11,12 +11,21 @@ import Alert from '@mui/material/Alert';
 import Fade from '@mui/material/Fade';
 import Snackbar from '@mui/material/Snackbar';
 
+//STYLES
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
 function AuthUser() {
   const { connect, requireInstall } = useWeb3();
   const { account } = useAccount();
   const { network } = useNetwork();
 
   const [open, setOpen] = useState(false);
+
+  //Styles
+  const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const btnFont = matchesSM ? '0.5rem' : '1rem';
 
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
@@ -38,13 +47,23 @@ function AuthUser() {
 
     if (!network.isSupported)
       return (
-        <Button color='secondary' onClick={connect}>
+        <Button
+          color='secondary'
+          size={matchesSM ? 'small' : 'medium'}
+          onClick={connect}
+          sx={{ fontSize: btnFont }}
+        >
           {`Select ${network.target} network`}
         </Button>
       );
 
     return (
-      <Button color='secondary' onClick={connect}>
+      <Button
+        color='secondary'
+        size={matchesSM ? 'small' : 'medium'}
+        onClick={connect}
+        sx={{ fontSize: btnFont }}
+      >
         Connect to Metamask
       </Button>
     );
