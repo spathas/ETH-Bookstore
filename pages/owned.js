@@ -21,6 +21,10 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Tooltip from '@mui/material/Tooltip';
 
+//STYLES
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
 const CardItem = ({ book }) => {
   const router = useRouter();
 
@@ -154,8 +158,13 @@ export default function Owned({ books }) {
 
   const [openLoader, setOpenLoader] = useState(true);
 
+  //Styles
+  const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const rootMargin = matchesSM ? '0.5rem' : '3rem';
+  const alertWidth = matchesSM ? '100%' : '50%';
+
   useEffect(() => {
-    console.log('here');
     const timer = setTimeout(() => {
       setOpenLoader(isLoading);
     }, 100);
@@ -171,10 +180,10 @@ export default function Owned({ books }) {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          margin: '3rem',
+          margin: rootMargin,
         }}
       >
-        <Alert variant='filled' severity='error' sx={{ width: '50%' }}>
+        <Alert variant='filled' severity='error' sx={{ width: alertWidth }}>
           <AlertTitle>Install Metamask</AlertTitle>
           Please install Metamask to see your owned books.{' '}
           <Link href='https://metamask.io/'>
@@ -196,10 +205,10 @@ export default function Owned({ books }) {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          margin: '3rem',
+          margin: rootMargin,
         }}
       >
-        <Alert variant='filled' severity='error' sx={{ width: '50%' }}>
+        <Alert variant='filled' severity='error' sx={{ width: alertWidth }}>
           <AlertTitle>Install Metamask</AlertTitle>
           Please connect to your Metamask account.{' '}
           <Button

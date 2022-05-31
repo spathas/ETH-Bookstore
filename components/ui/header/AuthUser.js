@@ -53,7 +53,7 @@ function AuthUser() {
           onClick={connect}
           sx={{ fontSize: btnFont }}
         >
-          {`Select ${network.target} network`}
+          {`Select ${network.target}`}
         </Button>
       );
 
