@@ -11,20 +11,12 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles({
-  centeredText: {
-    textAlign: 'center',
-  },
-});
 
 export default function BookCardSlider({ books, results }) {
   const [pointer, setPointer] = useState(0);
   const [booksOnSlider, setBooksOnSlider] = useState(0);
 
   //Styles
-  const classes = useStyles();
   const theme = useTheme();
   const matchesXL = useMediaQuery(theme.breakpoints.up('xl'));
   const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
@@ -75,15 +67,7 @@ export default function BookCardSlider({ books, results }) {
         justifyContent='center'
         alignItems='center'
       >
-        <Grid
-          item
-          xl={1}
-          lg={1}
-          md={1}
-          sm={1}
-          xs={1}
-          className={classes.centeredText}
-        >
+        <Grid item xl={1} lg={1} md={1} sm={1} xs={1} align='center'>
           {pointer > 0 && (
             <ArrowBackIosNewIcon
               color='primary'
@@ -107,15 +91,7 @@ export default function BookCardSlider({ books, results }) {
         >
           {books && cardItemsHandler()}
         </Grid>
-        <Grid
-          item
-          xl={1}
-          lg={1}
-          md={1}
-          sm={1}
-          xs={1}
-          className={classes.centeredText}
-        >
+        <Grid item xl={1} lg={1} md={1} sm={1} xs={1} align='center'>
           {pointer < results - booksOnSlider && (
             <ArrowForwardIosIcon
               onClick={moveToRight}

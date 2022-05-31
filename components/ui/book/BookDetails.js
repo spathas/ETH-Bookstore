@@ -16,19 +16,21 @@ function BookDetails({ book, data }) {
   const { eth } = useEthPrice(book.price);
   const { account } = useAccount();
 
-  const [cookies, setCookie] = useCookies([book.id]);
+  const [cookies, setCookie, removeCookie] = useCookies([book.id]);
   const favStatus =
     cookies[book.id] === {} ||
     cookies[book.id] === 'false' ||
-    cookies[book.id] === 'undefined'
+    cookies[book.id] === undefined
       ? false
       : true;
 
   const [isFavorite, setIsFavorite] = useState(favStatus);
-  console.log(favStatus);
+  console.log('isFavorite', isFavorite);
+  console.log('favStatus', favStatus);
 
   const handleClickFavorite = () => {
-    setCookie(book.id, !favStatus, { path: '/' });
+    if (!favStatus) setCookie(book.id, true, { path: '/' });
+    if (favStatus) removeCookie(book.id, { path: '/' });
     setIsFavorite(!favStatus);
   };
 

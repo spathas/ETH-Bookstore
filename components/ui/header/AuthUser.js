@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { useAccount } from '@components/hooks/web3';
+import { useAccount, useNetwork } from '@components/hooks/web3';
 import copy from 'copy-to-clipboard';
 import { useWeb3 } from '@components/providers';
 
@@ -14,6 +14,7 @@ import Snackbar from '@mui/material/Snackbar';
 function AuthUser() {
   const { connect, requireInstall } = useWeb3();
   const { account } = useAccount();
+  const { network } = useNetwork();
 
   const [open, setOpen] = useState(false);
 
@@ -33,6 +34,13 @@ function AuthUser() {
             PLEASE INSTALL METAMASK
           </a>
         </Link>
+      );
+
+    if (!network.isSupported)
+      return (
+        <Button color='secondary' onClick={connect}>
+          {`Select ${network.target} network`}
+        </Button>
       );
 
     return (
