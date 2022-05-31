@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useWeb3 } from '@components/providers';
 import { useAccount } from '@components/hooks/web3';
+import { useEthPrice } from '@components/hooks/useEthPrice';
 
 //MUI COMPONENTS
 import Grid from '@mui/material/Grid';
@@ -17,10 +18,12 @@ import { useTheme } from '@mui/material/styles';
 
 function AdminPanel() {
   const router = useRouter();
-  const { contract } = useWeb3();
+  const { web3, contract } = useWeb3();
   const { account } = useAccount();
+  const { eth } = useEthPrice();
 
-  const [newOwner, setNewOnwer] = useState();
+  const [newOwner, setNewOnwer] = useState('');
+  const [withdrawValue, setWithdrawValue] = useState('');
 
   //Styles
   const theme = useTheme();
@@ -60,6 +63,27 @@ function AdminPanel() {
     }
   };
 
+  const withdraw = async (value) => {
+    try {
+      const amount = web3.utils.toWei(
+        String((value / Number(eth.data)).toFixed(15))
+      );
+      await contract.methods.withdraw(amount).send({ from: account.data });
+    } catch (error) {
+      console.log(error);
+      console.error('Change Owner of Contract: Operation has failed.');
+    }
+  };
+
+  const withdrawAll = async (value) => {
+    try {
+      await contract.methods.emergencyWithdraw().send({ from: account.data });
+    } catch (error) {
+      console.log(error);
+      console.error('Change Owner of Contract: Operation has failed.');
+    }
+  };
+
   return (
     <>
       <Typography
@@ -78,6 +102,7 @@ function AdminPanel() {
           alignItems='center'
           sx={{ width: 'auto', m: rootMargin }}
         >
+          {/* Change owner */}
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Typography
               variant={matchesSM ? 'h6' : 'h5'}
@@ -87,27 +112,30 @@ function AdminPanel() {
             >
               Change contract ownership
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <TextField
-                id='outlined-basic'
-                label='Enter New Owner Public Key'
-                variant='outlined'
-                onChange={(e) => setNewOnwer(e.target.value)}
-                sx={{ mr: 1 }}
-                size={matchesSM ? 'small' : 'medium'}
-              />
-              <Button
-                variant='contained'
-                disabled={account.isContractStopped}
-                onClick={() => {
-                  changeContractOwner(newOwner);
-                  setNewOnwer(null);
-                }}
-              >
-                Submit
-              </Button>
-            </Box>
+            <form noValidate autoComplete='off'>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                <TextField
+                  label='Enter New Owner Public Key'
+                  placeholder='Pyblic key'
+                  variant='outlined'
+                  onChange={(e) => setNewOnwer(e.target.value)}
+                  sx={{ mr: 1 }}
+                  size={matchesSM ? 'small' : 'medium'}
+                />
+                <Button
+                  variant='contained'
+                  disabled={account.isContractStopped || newOwner?.length != 42}
+                  onClick={() => {
+                    changeContractOwner(newOwner);
+                    setNewOnwer(null);
+                  }}
+                >
+                  Submit
+                </Button>
+              </Box>
+            </form>
           </Grid>
+          {/* Start / Stop Contract */}
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Typography
               variant={matchesSM ? 'h6' : 'h5'}
@@ -138,6 +166,7 @@ function AdminPanel() {
               </Button>
             </Box>
           </Grid>
+          {/* Withdraws */}
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Typography
               variant={matchesSM ? 'h6' : 'h5'}
@@ -147,26 +176,31 @@ function AdminPanel() {
             >
               Withdraw Funds
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <TextField
-                id='outlined-basic'
-                label='Enter the Amount'
-                variant='outlined'
-                onChange={(e) => setNewOnwer(e.target.value)}
-                sx={{ mr: 1 }}
-                size={matchesSM ? 'small' : 'medium'}
-              />
-              <Button
-                variant='contained'
-                disabled={account.isContractStopped}
-                onClick={() => {
-                  changeContractOwner(newOwner);
-                  setNewOnwer(null);
-                }}
-              >
-                Withdraw
-              </Button>
-            </Box>
+            <form noValidate autoComplete='off'>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                <TextField
+                  label='Enter the Amount'
+                  placeholder='Amount'
+                  variant='outlined'
+                  onChange={(e) => setWithdrawValue(e.target.value)}
+                  sx={{ mr: 1 }}
+                  size={matchesSM ? 'small' : 'medium'}
+                  type='number'
+                  value={withdrawValue}
+                />
+                <Button
+                  variant='contained'
+                  disabled={account.isContractStopped || !withdrawValue}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    withdraw(withdrawValue);
+                    setWithdrawValue('');
+                  }}
+                >
+                  Withdraw
+                </Button>
+              </Box>
+            </form>
           </Grid>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Typography
@@ -189,14 +223,11 @@ function AdminPanel() {
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
               <Button
                 variant='contained'
-                color='error'
+                color='warning'
                 disabled={!account.isContractStopped}
-                onClick={() => {
-                  changeContractOwner(newOwner);
-                  setNewOnwer(null);
-                }}
+                onClick={withdrawAll}
               >
-                Withdraw
+                Withdraw All
               </Button>
             </Box>
           </Grid>

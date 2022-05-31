@@ -10,7 +10,7 @@ const fetcher = async (url) => {
   return json.market_data.current_price.usd ?? null;
 };
 
-export const useEthPrice = (value) => {
+export const useEthPrice = (value = 0) => {
   const { data, ...rest } = useSWR(URL, fetcher, { refreshInterval: 10000 });
 
   const perItem = (data && (value / Number(data)).toFixed(6)) ?? null;

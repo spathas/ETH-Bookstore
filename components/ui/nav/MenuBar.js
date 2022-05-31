@@ -42,7 +42,7 @@ function MenuBar({ triggerMenu, closeBar }) {
 
   return (
     <Drawer anchor={'left'} open={triggerMenu} onClose={handleClose}>
-      <List sx={{ mr: 4 }}>
+      <List>
         {navData.map((item, index) => {
           if (!account.isAdmin && item.path === '/admin') return;
           return (
@@ -53,6 +53,7 @@ function MenuBar({ triggerMenu, closeBar }) {
                 handleClose();
                 router.push(item.path);
               }}
+              sx={{ mr: 4 }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />

@@ -81,8 +81,8 @@ contract BookMarketplace {
   }
 
   function purchaseBook(
-    bytes16 bookId, // 0x00000000000000000000000000003130
-    bytes32 proof // 0x0000000000000000000000000000313000000000000000000000000000003130
+    bytes16 bookId,
+    bytes32 proof
   )
     external
     payable
