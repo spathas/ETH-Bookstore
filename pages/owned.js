@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import slugify from 'slugify';
 import { getAllBooks } from '@content/books/fetcher';
@@ -222,15 +221,12 @@ export default function Owned({ books }) {
         <Alert variant='filled' severity='error' sx={{ width: alertWidth }}>
           <AlertTitle>Install Metamask</AlertTitle>
           Please install Metamask to see your owned books.{' '}
-          <Link href='https://metamask.io/'>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ textDecoration: 'underline' }}
-            >
-              PRESS TO INSTALL
-            </a>
-          </Link>
+          <Button
+            color='secondary'
+            onClick={() => window.open('https://metamask.io/')}
+          >
+            Press to install Metamask
+          </Button>
         </Alert>
       </Box>
     );

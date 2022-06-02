@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import { useAccount, useNetwork } from '@components/hooks/web3';
 import copy from 'copy-to-clipboard';
 import { useWeb3 } from '@components/providers';
@@ -19,8 +18,6 @@ function AuthUser() {
   const { connect, requireInstall } = useWeb3();
   const { account } = useAccount();
   const { network } = useNetwork();
-
-  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -44,9 +41,9 @@ function AuthUser() {
           color='warning'
           size={matchesSM ? 'small' : 'medium'}
           sx={{ fontSize: btnFont }}
-          onClick={() => router.push('hhtps://metamask.io/')}
+          onClick={() => window.open('https://metamask.io/')}
         >
-          Please Install Metamask
+          Install Metamask
         </Button>
       );
 
