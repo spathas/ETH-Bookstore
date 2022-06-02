@@ -41,8 +41,9 @@ function AuthUser() {
     if (requireInstall)
       return (
         <Button
-          variant='contained'
-          color='error'
+          color='warning'
+          size={matchesSM ? 'small' : 'medium'}
+          sx={{ fontSize: btnFont }}
           onClick={() => router.push('hhtps://metamask.io/')}
         >
           Please Install Metamask
