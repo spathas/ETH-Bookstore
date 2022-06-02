@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAccount, useNetwork } from '@components/hooks/web3';
 import copy from 'copy-to-clipboard';
 import { useWeb3 } from '@components/providers';
@@ -20,6 +20,8 @@ function AuthUser() {
   const { account } = useAccount();
   const { network } = useNetwork();
 
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
 
   //Styles
@@ -38,11 +40,13 @@ function AuthUser() {
   const buttonHandler = () => {
     if (requireInstall)
       return (
-        <Link href='https://metamask.io/'>
-          <a target='_blank' rel='noopener noreferrer'>
-            PLEASE INSTALL METAMASK
-          </a>
-        </Link>
+        <Button
+          variant='contained'
+          color='error'
+          onClick={() => router.push('hhtps://metamask.io/')}
+        >
+          Please Install Metamask
+        </Button>
       );
 
     if (!network.isSupported)

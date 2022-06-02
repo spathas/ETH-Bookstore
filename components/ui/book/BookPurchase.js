@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useWeb3 } from '@components/providers';
 import { useOwnedBooks, useWalletInfo } from '@components/hooks/web3';
 import { useEthPrice } from '@components/hooks/useEthPrice';
@@ -18,6 +18,8 @@ function BookPurchase({ book, data }) {
   const { account, isConnecting } = useWalletInfo();
   const { ownedBooks } = useOwnedBooks(data, account.data);
   const { eth } = useEthPrice(book.price);
+
+  const router = useRouter();
 
   const [trigger, setTrigger] = useState(false);
 
@@ -62,12 +64,12 @@ function BookPurchase({ book, data }) {
   const printButton = () => {
     if (requireInstall)
       return (
-        <Button variant='contained' color='error' fullWidth>
-          <Link href='https://metamask.io/' passHref>
-            <a target='_blank' rel='noopener noreferrer'>
-              Install Metamask
-            </a>
-          </Link>
+        <Button
+          variant='contained'
+          color='error'
+          onClick={() => router.push('hhtps://metamask.io/')}
+        >
+          Install Metamask
         </Button>
       );
 
