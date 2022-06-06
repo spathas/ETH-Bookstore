@@ -73,16 +73,6 @@ export const useOwnedBook = (...args) => {
   };
 };
 
-export const useManagedBooks = (...args) => {
-  const swrRes = enhanceHook(
-    useHooks((hooks) => hooks.useManagedBooks)(...args)
-  );
-
-  return {
-    managedBooks: swrRes,
-  };
-};
-
 export const useWalletInfo = () => {
   const { account } = useAccount();
   const { network } = useNetwork();
