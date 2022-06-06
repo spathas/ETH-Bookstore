@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import ISBN from 'isbnjs';
 import { useEthPrice } from '@components/hooks/useEthPrice';
 import { useAccount } from '@components/hooks/web3';
+import BookPurchase from './BookPurchase';
 
 //MUI COMPONENTS
 import Box from '@mui/material/Box';
@@ -10,7 +11,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import BookPurchase from './BookPurchase';
 
 function BookDetails({ book, data }) {
   const { eth } = useEthPrice(book.price);

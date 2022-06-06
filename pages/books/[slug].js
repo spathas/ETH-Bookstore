@@ -1,5 +1,5 @@
 //CUSTOM COMPONENTS
-import BookPrevierw from '@components/ui/book/BookPrevierw';
+import BookPreview from '@components/ui/book/BookPreview';
 import SuggestedBooks from '@components/ui/book/SuggestedBooks';
 import { getAllBooks } from '@content/books/fetcher';
 import slugify from 'slugify';
@@ -15,7 +15,7 @@ function BookPage({ data, book }) {
 
   return (
     <>
-      <BookPrevierw book={book} data={data} />
+      <BookPreview book={book} data={data} />
       {matchesSM && <SuggestedBooks book={book} booksArr={data} />}
     </>
   );
