@@ -35,3 +35,5 @@ yarn-error.log*
 
 .env.production
 .env.development
+
+keys.json
