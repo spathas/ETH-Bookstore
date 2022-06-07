@@ -25,8 +25,6 @@ function BookDetails({ book, data }) {
       : true;
 
   const [isFavorite, setIsFavorite] = useState(favStatus);
-  console.log('isFavorite', isFavorite);
-  console.log('favStatus', favStatus);
 
   const handleClickFavorite = () => {
     if (!favStatus) setCookie(book.id, true, { path: '/' });
